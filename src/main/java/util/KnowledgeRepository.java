@@ -2,9 +2,12 @@ package util;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import static util.FileUtil.getFiles;
 import static util.ImageUtil.*;
@@ -13,9 +16,22 @@ public class KnowledgeRepository {
 
     private static final Map<BufferedImage, String> importanceBufferedImages = new HashMap<>();
     private static final Map<BufferedImage, String> suitOfCardsBufferedImages = new HashMap<>();
+    private static String pathImportanceFiles;
+    private static String pathSuitOfCardsFilesFiles;
 
-    private static final List<File> importanceFiles = getFiles("d:/importanceFiles");
-    private static final List<File> suitOfCardsFiles = getFiles("d:/suitOfCardsFiles");
+    static {
+        try {
+            pathSuitOfCardsFilesFiles = Objects.requireNonNull(KnowledgeRepository.class.getClassLoader().getResource("suitOfCardsFiles/")).toURI().getPath();
+            pathImportanceFiles = Objects.requireNonNull(KnowledgeRepository.class.getClassLoader().getResource("importanceFiles/")).toURI().getPath();
+            System.out.println(pathSuitOfCardsFilesFiles);
+
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static final List<File> importanceFiles = getFiles(pathImportanceFiles.substring(1));
+    private static final List<File> suitOfCardsFiles = getFiles(pathSuitOfCardsFilesFiles.substring(1));
 
     static {
         for (File importanceFile : importanceFiles) {
