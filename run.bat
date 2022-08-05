@@ -1,0 +1,1 @@
+"%JAVA_HOME%\bin\java.exe" -jar playingcardreader.jar %1
